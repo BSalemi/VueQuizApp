@@ -12,6 +12,7 @@
           <b-list-group-item 
             v-for="(answer, index) in answers" 
             :key="index"
+            @click="selectAnswer(index)"
           >
              {{answer}}
           </b-list-group-item>
@@ -29,12 +30,22 @@
       currentQuestion: Object,
       nextQuestion: Function
     },
+    data(){
+      return {
+        selectedIndex: null
+      }
+    },
     computed: {
       answers(){
         let answers = [...this.currentQuestion.incorrect_answers]
         answers.push(this.currentQuestion.correct_answer)
 
         return answers
+      }
+    },
+    methods: {
+      selectAnswer(index){
+        this.selectedIndex = index
       }
     }
   }
