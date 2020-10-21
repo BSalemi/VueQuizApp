@@ -19,8 +19,15 @@
           </b-list-group-item>
         </b-list-group>
 
-        <b-button variant="primary" href="#">Submit</b-button>
-        <b-button @click="nextQuestion" variant="success" href="#">Next Question </b-button>
+        <b-button
+          variant="primary"
+          @click="submitAnswer"
+        >
+          Submit
+        </b-button>
+        <b-button @click="nextQuestion" variant="success">
+          Next Question
+        </b-button>
       </b-jumbotron>
   </div>
 </template>
@@ -32,7 +39,8 @@
   export default {
     props: {
       currentQuestion: Object,
-      nextQuestion: Function
+      nextQuestion: Function,
+      increment: Function
     },
     data(){
       return {
@@ -49,20 +57,30 @@
       }
     },
     watch: {
-      currentQuestion(){
+      currentQuestion: {
+        immediate: true,
+        handler(){
         this.selectedIndex = null
         this.shuffleAnswers()
+        }
       }
     },
     methods: {
       selectAnswer(index){
         this.selectedIndex = index
       },
+      submitAnswer(){
+        let isCorrect = false
+
+        if (this.selectedIndex === this.correctIndex){
+          isCorrect = true
+        }
+
+        this.increment(isCorrect)
+      },
       shuffleAnswers(){
         let answers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer]
-
         this.shuffledAnswers = _.shuffle(answers)
-
       }
     }
   }
