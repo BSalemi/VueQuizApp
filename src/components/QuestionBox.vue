@@ -22,6 +22,7 @@
         <b-button
           variant="primary"
           @click="submitAnswer"
+          :disabled="selectedIndex === null"
         >
           Submit
         </b-button>
@@ -45,7 +46,8 @@
     data(){
       return {
         selectedIndex: null,
-        shuffledAnswers: []
+        shuffledAnswers: [],
+        correctIndex: null
       }
     },
     computed: {
@@ -81,6 +83,7 @@
       shuffleAnswers(){
         let answers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer]
         this.shuffledAnswers = _.shuffle(answers)
+        this.correctIndex = this.shuffledAnswers.indexOf(this.currentQuestion.correct_answer)
       }
     }
   }
